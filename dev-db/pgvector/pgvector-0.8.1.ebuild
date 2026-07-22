@@ -12,7 +12,7 @@ DESCRIPTION="Open-source vector similarity search for Postgres"
 HOMEPAGE="https://github.com/pgvector/pgvector"
 SRC_URI="https://github.com/${PN}/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="Postgres"
+LICENSE="POSTGRESQL"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="static-libs"
@@ -22,7 +22,6 @@ DEPEND="
 	${POSTGRES_DEP}
 "
 RDEPEND="${DEPEND}"
-
 
 src_prepare() {
 	eapply_user
