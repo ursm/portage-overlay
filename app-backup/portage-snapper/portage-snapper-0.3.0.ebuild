@@ -3,7 +3,7 @@
 
 EAPI=8
 
-DESCRIPTION="snapper snapshots around Portage transactions, snap-pac style"
+DESCRIPTION="Snapper snapshots around Portage transactions, snap-pac style"
 HOMEPAGE="https://github.com/ursm/portage-snapper"
 SRC_URI="https://github.com/ursm/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
