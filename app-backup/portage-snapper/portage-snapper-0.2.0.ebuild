@@ -4,7 +4,7 @@
 EAPI=8
 
 DESCRIPTION="snapper snapshots around Portage transactions, snap-pac style"
-HOMEPAGE="https://github.com/ursm/emerge-snap"
+HOMEPAGE="https://github.com/ursm/portage-snapper"
 SRC_URI="https://github.com/ursm/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
@@ -20,15 +20,15 @@ src_install() {
 
 pkg_postinst() {
 	elog "The scripts are installed, but /etc/portage/ is left untouched."
-	elog "Enable emerge-snap manually:"
+	elog "Enable portage-snapper manually:"
 	elog
 	elog "  1. Add to /etc/portage/bashrc:"
-	elog "       source /usr/share/emerge-snap/hook.bash"
+	elog "       source /usr/share/portage-snapper/hook.bash"
 	elog
 	elog "  2. Point /etc/portage/bin/post_emerge at it, e.g. as a symlink:"
-	elog "       ln -s /usr/share/emerge-snap/post_emerge /etc/portage/bin/post_emerge"
+	elog "       ln -s /usr/share/portage-snapper/post_emerge /etc/portage/bin/post_emerge"
 	elog "     or call it from your own post_emerge wrapper."
 	elog
-	elog "Tune behavior in /etc/emerge-snap.conf. A configured snapper config"
+	elog "Tune behavior in /etc/portage-snapper.conf. A configured snapper config"
 	elog "is required (default: root)."
 }

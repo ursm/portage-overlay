@@ -6,6 +6,6 @@
 		<name>Keita Urashima</name>
 	</maintainer>
 	<upstream>
-		<remote-id type="github">ursm/emerge-snap</remote-id>
+		<remote-id type="github">ursm/portage-snapper</remote-id>
 	</upstream>
 </pkgmetadata>
