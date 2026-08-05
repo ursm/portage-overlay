@@ -103,15 +103,17 @@ src_install() {
 pkg_postinst() {
 	udev_reload
 
-	# The udev rule ships enabled, so a fresh install starts osm on the next
-	# keyboard hotplug with whatever /etc/default/osm says. Point that out
-	# once; on upgrades the user already knows.
+	# osm ships with no key mappings set, so it starts but does nothing until
+	# /etc/default/osm is configured. Tell a first-time installer how to turn
+	# it on; on upgrades they already know.
 	if [[ -z ${REPLACING_VERSIONS} ]]; then
-		elog "Key mappings are configured in /etc/default/osm. The default maps"
-		elog "LeftShift to Home and RightShift to End."
+		elog "osm does nothing until you set a key mapping in /etc/default/osm."
+		elog "For example, to map both Shift keys:"
 		elog
-		elog "osm is started per keyboard by udev, so it picks up existing devices"
-		elog "only after a re-trigger:"
+		elog "  KEYMAP=\"LeftShift=Home RightShift=End\""
+		elog
+		elog "osm is started per keyboard by udev, so once configured it picks up"
+		elog "existing devices only after a re-trigger:"
 		elog
 		elog "  udevadm trigger --action=add --subsystem-match=input"
 	fi
