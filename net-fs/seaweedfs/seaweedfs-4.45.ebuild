@@ -68,7 +68,7 @@ src_install() {
 	dobin bin/weed
 	einstalldocs
 
-	systemd_dounit "${FILESDIR}"/seaweedfs-{master,volume,filer,s3,server}.service
+	systemd_dounit "${FILESDIR}"/seaweedfs-{master,volume,filer,s3,server,mini}.service
 
 	# weed fuse is a mount(8) helper, so mount -t weed and fstab entries
 	# work once it can be found under the helper name.
@@ -111,9 +111,11 @@ pkg_postinst() {
 		elog "  weed scaffold -config=filer -output=/etc/seaweedfs"
 		elog
 		elog "systemd units are provided per role (seaweedfs-master, -volume, -filer"
-		elog "and -s3) plus seaweedfs-server, which runs master, volume server and"
-		elog "filer in one process. They keep their state under /var/lib/seaweedfs"
-		elog "and take further flags through a drop-in: systemctl edit seaweedfs-volume"
+		elog "and -s3), plus seaweedfs-server for master, volume server and filer in"
+		elog "one process, and seaweedfs-mini for a loopback-only development setup"
+		elog "with S3, WebDAV and the admin UI. They keep their state under"
+		elog "/var/lib/seaweedfs and take further flags through a drop-in:"
+		elog "systemctl edit seaweedfs-volume"
 		elog
 		elog "weed master and weed server send anonymous usage statistics to"
 		elog "telemetry.seaweedfs.com unless started with -telemetry=false"

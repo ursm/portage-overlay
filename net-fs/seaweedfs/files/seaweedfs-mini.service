@@ -1,18 +1,19 @@
 [Unit]
-Description=SeaweedFS master, volume server and filer in one process
+Description=SeaweedFS all-in-one development server
 Documentation=https://github.com/seaweedfs/seaweedfs/wiki
 Wants=network-online.target
-After=network-online.target seaweedfs-master.service seaweedfs-volume.service seaweedfs-filer.service seaweedfs-s3.service
-Conflicts=seaweedfs-master.service seaweedfs-volume.service seaweedfs-filer.service seaweedfs-s3.service seaweedfs-mini.service
+After=network-online.target seaweedfs-master.service seaweedfs-volume.service seaweedfs-filer.service seaweedfs-s3.service seaweedfs-server.service
+Conflicts=seaweedfs-master.service seaweedfs-volume.service seaweedfs-filer.service seaweedfs-s3.service seaweedfs-server.service
 
 [Service]
 User=seaweedfs
 Group=seaweedfs
-StateDirectory=seaweedfs/server
+StateDirectory=seaweedfs/mini
 StateDirectoryMode=0750
-WorkingDirectory=/var/lib/seaweedfs/server
+WorkingDirectory=/var/lib/seaweedfs/mini
 UMask=0027
-ExecStart=/usr/bin/weed -logtostderr server -dir=/var/lib/seaweedfs/server -filer
+# Everything is reachable without credentials until some are created, so stay on loopback.
+ExecStart=/usr/bin/weed -logtostderr mini -dir=/var/lib/seaweedfs/mini -ip=127.0.0.1 -ip.bind=127.0.0.1
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartSec=5s
