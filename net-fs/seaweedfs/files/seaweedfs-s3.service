@@ -1,0 +1,36 @@
+[Unit]
+Description=SeaweedFS S3 gateway
+Documentation=https://github.com/seaweedfs/seaweedfs/wiki
+Wants=network-online.target
+After=network-online.target seaweedfs-filer.service
+
+[Service]
+User=seaweedfs
+Group=seaweedfs
+UMask=0027
+ExecStart=/usr/bin/weed -logtostderr s3
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+SyslogIdentifier=%N
+
+CapabilityBoundingSet=
+LockPersonality=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=full
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

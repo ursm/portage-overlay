@@ -1,0 +1,29 @@
+weed mount unmounts through a hard-coded "fusermount", which only FUSE 2
+ships. On a FUSE 3 host the helper is fusermount3, so the SIGTERM/SIGINT
+handler fails to unmount and leaves a dead mountpoint behind. Look for
+fusermount3 first, the way the bundled go-fuse already does when mounting.
+
+--- a/weed/mount/unmount/unmount_linux.go
++++ b/weed/mount/unmount/unmount_linux.go
+@@ -7,7 +7,7 @@ import (
+ )
+ 
+ func unmount(dir string) error {
+-	cmd := exec.Command("fusermount", "-u", dir)
++	cmd := exec.Command(fusermountBinary(), "-u", dir)
+ 	output, err := cmd.CombinedOutput()
+ 	if err != nil {
+ 		if len(output) > 0 {
+@@ -19,3 +19,12 @@ func unmount(dir string) error {
+ 	}
+ 	return nil
+ }
++
++// fusermountBinary returns fusermount3 when FUSE 3 is installed and falls
++// back to the FUSE 2 name otherwise, matching go-fuse's own lookup.
++func fusermountBinary() string {
++	if path, err := exec.LookPath("fusermount3"); err == nil {
++		return path
++	}
++	return "fusermount"
++}

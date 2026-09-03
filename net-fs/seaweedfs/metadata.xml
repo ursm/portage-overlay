@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>ursm@ursm.jp</email>
+		<name>Keita Urashima</name>
+	</maintainer>
+	<use>
+		<flag name="elasticsearch">Build the Elasticsearch filer store and the Elasticsearch output of filer.meta.tail</flag>
+		<flag name="gocdk">Build the Go CDK (gocloud.dev) pub/sub backend for filer notifications and filer.replicate</flag>
+		<flag name="large-disk">Use 5-byte needle offsets so a volume can grow to 8000GB instead of 30GB, like upstream's large_disk builds. The volume index format differs between the two, so do not toggle this on a volume server with existing data.</flag>
+		<flag name="rclone">Build the rclone volume backend for tiering volumes to any rclone remote</flag>
+		<flag name="sqlite">Build the SQLite filer store</flag>
+		<flag name="tarantool">Build the Tarantool filer store</flag>
+		<flag name="tikv">Build the TiKV filer store</flag>
+		<flag name="ydb">Build the YDB filer store</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">seaweedfs/seaweedfs</remote-id>
+	</upstream>
+</pkgmetadata>

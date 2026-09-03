@@ -1,0 +1,40 @@
+[Unit]
+Description=SeaweedFS master server
+Documentation=https://github.com/seaweedfs/seaweedfs/wiki
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=seaweedfs
+Group=seaweedfs
+StateDirectory=seaweedfs/master
+StateDirectoryMode=0750
+WorkingDirectory=/var/lib/seaweedfs/master
+UMask=0027
+ExecStart=/usr/bin/weed -logtostderr master -mdir=/var/lib/seaweedfs/master
+# Besides re-reading security.toml, a hashicorp-raft leader hands off leadership on SIGHUP.
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+SyslogIdentifier=%N
+
+CapabilityBoundingSet=
+LockPersonality=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=full
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

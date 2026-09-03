@@ -1,0 +1,40 @@
+[Unit]
+Description=SeaweedFS master, volume server and filer in one process
+Documentation=https://github.com/seaweedfs/seaweedfs/wiki
+Wants=network-online.target
+After=network-online.target seaweedfs-master.service seaweedfs-volume.service seaweedfs-filer.service seaweedfs-s3.service
+Conflicts=seaweedfs-master.service seaweedfs-volume.service seaweedfs-filer.service seaweedfs-s3.service
+
+[Service]
+User=seaweedfs
+Group=seaweedfs
+StateDirectory=seaweedfs/server
+StateDirectoryMode=0750
+WorkingDirectory=/var/lib/seaweedfs/server
+UMask=0027
+ExecStart=/usr/bin/weed -logtostderr server -dir=/var/lib/seaweedfs/server -filer
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+SyslogIdentifier=%N
+
+CapabilityBoundingSet=
+LockPersonality=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=full
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

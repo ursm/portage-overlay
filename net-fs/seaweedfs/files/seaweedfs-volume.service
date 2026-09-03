@@ -1,0 +1,39 @@
+[Unit]
+Description=SeaweedFS volume server
+Documentation=https://github.com/seaweedfs/seaweedfs/wiki
+Wants=network-online.target
+After=network-online.target seaweedfs-master.service
+
+[Service]
+User=seaweedfs
+Group=seaweedfs
+StateDirectory=seaweedfs/volume
+StateDirectoryMode=0750
+WorkingDirectory=/var/lib/seaweedfs/volume
+UMask=0027
+ExecStart=/usr/bin/weed -logtostderr volume -dir=/var/lib/seaweedfs/volume
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+SyslogIdentifier=%N
+
+CapabilityBoundingSet=
+LockPersonality=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=full
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target
