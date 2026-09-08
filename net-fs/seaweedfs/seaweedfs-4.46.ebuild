@@ -31,7 +31,7 @@ RDEPEND="
 "
 BDEPEND=">=dev-lang/go-1.26"
 
-PATCHES=( "${FILESDIR}"/${P}-fusermount3.patch )
+PATCHES=( "${FILESDIR}"/${PN}-fusermount3.patch )
 
 # Each tag compiles in one optional backend. The set matches upstream's
 # full_install Makefile target. Extra tags can be passed in.
