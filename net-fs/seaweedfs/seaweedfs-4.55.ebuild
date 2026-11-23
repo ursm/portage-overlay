@@ -29,7 +29,7 @@ RDEPEND="
 	acct-user/seaweedfs
 	sys-fs/fuse:3
 "
-BDEPEND=">=dev-lang/go-1.26"
+BDEPEND=">=dev-lang/go-1.26.6"
 
 PATCHES=( "${FILESDIR}"/${PN}-fusermount3.patch )
 
@@ -117,11 +117,22 @@ pkg_postinst() {
 		elog "/var/lib/seaweedfs and take further flags through a drop-in:"
 		elog "systemctl edit seaweedfs-volume"
 		elog
-		elog "weed master and weed server send anonymous usage statistics to"
-		elog "telemetry.seaweedfs.com unless started with -telemetry=false"
-		elog "(master) or -master.telemetry=false (server)."
+		elog "weed master, weed server and weed mini send anonymous usage"
+		elog "statistics to telemetry.seaweedfs.com unless started with"
+		elog "-telemetry=false (master) or -master.telemetry=false (server, mini)."
 		elog
 		elog "weed update replaces /usr/bin/weed behind Portage's back; use"
 		elog "emerge to upgrade instead."
 	fi
+
+	local v
+	for v in ${REPLACING_VERSIONS}; do
+		if ver_test "${v}" -lt 4.49; then
+			ewarn "Since 4.49 the S3 API refuses to delete a bucket that still holds"
+			ewarn "objects. Pass -allowDeleteBucketNotEmpty (weed s3) or"
+			ewarn "-s3.allowDeleteBucketNotEmpty (weed filer, server and mini) to get"
+			ewarn "the old recursive delete back."
+			break
+		fi
+	done
 }
